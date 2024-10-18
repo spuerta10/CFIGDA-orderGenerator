@@ -1,0 +1,24 @@
+{
+    "customer":{
+        "customer_id_min":1,
+        "customer_id_max":11
+    },
+    "order_items":{  
+        "min_order_items":1,
+        "max_order_items":5
+    },
+    "item":{
+        "item_id_min":1,
+        "item_id_max":32
+    },
+    "tags":{
+        "min_tags":1,
+        "max_tags": 3,
+        "tag_id_min": 1,
+        "tag_id_max": 50
+    },
+    "city":{
+        "city_id_min":1,
+        "city_id_max":11
+    }
+}

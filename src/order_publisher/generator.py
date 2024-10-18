@@ -1,0 +1,52 @@
+""" Module to generate Mock Orders data
+"""
+from uuid import uuid4
+from random import randint
+
+from credit_risk_lib.config.config import Config
+from credit_risk_lib.config.config_factory import ConfigFactory 
+from pydantic import BaseModel
+
+
+class OrderGenerator:
+    def __init__(self, generator_conf_path: str, generator_conf_schema: BaseModel = None): 
+        self._conf: Config = ConfigFactory.get_conf(generator_conf_path, generator_conf_schema)
+    
+    
+    def generate(self) -> dict:
+        order = {
+            "customer_id": randint(self._conf.customer["customer_id_min"],self._conf.customer["customer_id_max"]),
+            "order_id": str(uuid4()),  # generate an UUID 4 unique order identifier
+            "order_items": self._generate_order_items(),
+            "city_id": randint(self._conf.city["city_id_min"], self._conf.city["city_id_max"])
+        }
+        return order
+    
+    
+    def _generate_order_items(self) -> list[dict]:
+        items_number =  randint(
+            self._conf.order_items["min_order_items"],
+            self._conf.order_items["max_order_items"]
+        )  # random number of items placed in the order
+        items = [
+            {
+                "item_id": randint(self._conf.item["item_id_min"], self._conf.item["item_id_max"]),
+                "item_tags": self._generate_item_tags()
+            }
+            for _ in range(items_number)
+        ]
+        return items
+
+
+    def _generate_item_tags(self) -> list[int]:
+        tags_number = randint(
+           self._conf.tags["min_tags"],
+           self._conf.tags["max_tags"] 
+        )  # random number of tags to be placed for each item in the order
+        return [
+            randint(
+                self._conf.tags["tag_id_min"],
+                self._conf.tags["tag_id_max"]
+            )
+            for _ in range(tags_number)
+        ]
