@@ -18,6 +18,18 @@ publisher = Publisher(r"src/order_publisher/conf/publisher_conf.json")
 
 @controller_bp.route("/orders/generate", methods=["POST"])
 def generate_and_send_orders() -> Response:
+    """
+    Handles the generation and publishing of orders via a POST request. It parses the input request,
+    validates it, and calls the order generation and publishing process.
+
+    Raises:
+        ValueError: If the input request body is empty or invalid.
+
+    Returns:
+        Response: 
+            - A JSON response containing the list of generated order IDs with a status code 200 if successful.
+            - A JSON response with the error message and status code 400 if an exception occurs.
+    """
     try:
         json_request = request.get_json(silent=True)
         if json_request is None:
@@ -28,6 +40,6 @@ def generate_and_send_orders() -> Response:
             order_generator= order_generator, 
             publisher= publisher
         )
-        return jsonify({"orders":orders}), 200  # TODO: delete orders variable
+        return jsonify({"orders":orders}), 200
     except Exception as e:
         return jsonify({"Exception!": str(e)}), 400
