@@ -20,5 +20,13 @@
     "city":{
         "city_id_min":1,
         "city_id_max":11
+    },
+    "total_amount":{
+        "min_total_amount":1,
+        "max_total_amount":1000
+    },
+    "payment_method":{
+        "payment_method_id_min": 1,
+        "payment_method_id_max": 8
     }
 }

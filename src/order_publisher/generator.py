@@ -1,7 +1,7 @@
 """ Module to generate Mock Orders data
 """
 from uuid import uuid4
-from random import randint
+from random import randint, uniform
 
 from credit_risk_lib.config.config import Config
 from credit_risk_lib.config.config_factory import ConfigFactory 
@@ -34,7 +34,15 @@ class OrderGenerator:
             "customer_id": randint(self._conf.customer["customer_id_min"],self._conf.customer["customer_id_max"]),
             "order_id": str(uuid4()),  # generate an UUID 4 unique order identifier
             "order_items": self._generate_order_items(),
-            "city_id": randint(self._conf.city["city_id_min"], self._conf.city["city_id_max"])
+            "city_id": randint(self._conf.city["city_id_min"], self._conf.city["city_id_max"]),
+            "total_amount": uniform(
+                self._conf.total_amount["min_total_amount"],
+                self._conf.total_amount["max_total_amount"]
+            ),
+            "payment_method_id": randint(
+                self._conf.payment_method["payment_method_id_min"],
+                self._conf.payment_method["payment_method_id_max"]
+            )
         }
         return order
     
