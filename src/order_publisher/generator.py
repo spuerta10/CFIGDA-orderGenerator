@@ -21,6 +21,7 @@ class OrderGenerator:
     
     
     def generate(self) -> dict:
+        # TODO: Could look into dbldatagen lib for generating data
         """Generate a random order.
 
         This method creates an order dictionary with a unique order ID, a random customer ID,
@@ -35,9 +36,11 @@ class OrderGenerator:
             "order_id": str(uuid4()),  # generate an UUID 4 unique order identifier
             "order_items": self._generate_order_items(),
             "city_id": randint(self._conf.city["city_id_min"], self._conf.city["city_id_max"]),
-            "total_amount": uniform(
-                self._conf.total_amount["min_total_amount"],
-                self._conf.total_amount["max_total_amount"]
+            "total_amount": round(
+                uniform(
+                    self._conf.total_amount["min_total_amount"],
+                    self._conf.total_amount["max_total_amount"]
+                ), 2
             ),
             "payment_method_id": randint(
                 self._conf.payment_method["payment_method_id_min"],
